@@ -1,0 +1,36 @@
+# Install required packages if not already installed
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#     install.packages("BiocManager")
+# BiocManager::install("msa")
+
+# Load the required library
+library(msa)
+
+# Define a set of DNA sequences (must be a vector of strings or a DNAStringSet)
+sequences_list <- c(
+  "ATGCAGTAGCC",
+  "A-GCAGT-GCC",
+  "TGGCA-T-GCC",
+  "TGGCA-T-GCA"
+)
+
+# Convert the sequences into a DNAStringSet object (required by msa)
+sequences_set <- DNAStringSet(sequences_list)
+
+# 1. Perform Multiple Sequence Alignment using ClustalW
+# The algorithm is specified by the 'method' parameter
+msa_result <- msa(
+  sequences_set,
+  method = "ClustalW", # Other options: "ClustalOmega", "Muscle"
+  type = "dna"
+)
+
+# 2. View the resulting alignment
+cat("--- Multiple Sequence Alignment (ClustalW) --- \n")
+print(msa_result)
+
+# 3. View the alignment in a nice, readable format
+# The 'msaPrettyPrint' function (requires R/Bioconductor to be installed)
+# is great for visualizing the result, often saving it to a PDF/HTML file.
+# Example command (requires the 'aplot' package):
+# msaPrettyPrint(msa_result, output = "pdf", file = "MSA_Output.pdf")
