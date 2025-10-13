@@ -1,0 +1,31 @@
+## Pairwise Alignment
+# Install required packages if not already installed
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#     install.packages("BiocManager")
+# BiocManager::install("Biostrings")
+
+# Load the required library
+library(Biostrings)
+
+# Define two DNA sequences
+seq1 <- DNAString("ATGCAGTAG")
+seq2 <- DNAString("GGCAGTTG")
+
+# 1. Perform Global Pairwise Alignment (Needleman-Wunsch)
+# Scoring parameters: match=2, mismatch=-2, gap opening=-5, gap extension=-2
+alignment <- Biostrings::pairwiseAlignment(
+  pattern = seq1,
+  subject = seq2,
+  type = "global", # Use "local" for Smith-Waterman
+  substitutionMatrix = "BLOSUM62", # Note: BLOSUM is for protein, but can use score for DNA
+  gapOpening = -5,
+  gapExtension = -2
+)
+
+# 2. View the alignment and its score
+cat("--- Pairwise Alignment --- \n")
+print(alignment)
+
+# 3. Extract the alignment score
+alignment_score <- score(alignment)
+cat("\nAlignment Score:", alignment_score, "\n")
